@@ -31,7 +31,7 @@ build-all-deps: build build-po build-docs
 #gtk: build-po build-docs
 gtk:
 	# For debugging: running the code in place.
-	PYTHONPATH=. $(PYTHON) mnemosyne/pygtk_ui/mnemosyne -d dot_mnemosyne2
+	PYTHONPATH=. $(PYTHON) mnemosyne/pygtk_ui/mnemosyne -d $(HOME)/.mnemosyne
 
 build:
 	# Just the bare minimum to get things running

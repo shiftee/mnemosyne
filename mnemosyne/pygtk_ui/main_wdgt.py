@@ -6,6 +6,7 @@
 import gi
 gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
+from gi.repository import GLib
 
 from mnemosyne.libmnemosyne.gui_translator import _
 from mnemosyne.libmnemosyne.ui_components.main_widget import MainWidget
@@ -32,18 +33,6 @@ class MainWdgt(MainWidget, Gtk.Box):
             self.centralwidget.remove(self, old_widget)
         self.centralwidget.pack_start(widget, True, True, 0)
 
-    def _store_state(self):
-        self.config()["main_window_state"] = self.saveGeometry()
-
-    def changeEvent(self, event):
-        '''
-            QtWidgets.QMainWindow.changeEvent(self, event)
-        '''
-
-    def closeEvent(self, event):
-        # Generated when clicking the window's close button.
-        self._store_state()
-
     def activate(self):
         MainWidget.activate(self)
         state = self.config()["main_window_state"]
@@ -61,11 +50,10 @@ class MainWdgt(MainWidget, Gtk.Box):
             self.menu_Study.addAction(action)
             self.study_mode_for_action[action] = study_mode
         study_mode_group.triggered.connect(self.change_study_mode)
-        self.retranslateUi(self)
-        self.timer = QtCore.QTimer()
-        self.timer.timeout.connect(self.controller_heartbeat)
-        self.timer.start(1000)  # 1 sec.
+
         '''
+
+        GLib.timeout_add_seconds(60, self.controller_heartbeat)
 
     def change_study_mode(self, action):
         action.setChecked(True)
@@ -74,8 +62,8 @@ class MainWdgt(MainWidget, Gtk.Box):
         self.controller().set_study_mode(study_mode)
 
     def controller_heartbeat(self):
-        # Need late binding to allow for inheritance.
         self.controller().heartbeat()
+        return True
 
     def show_question(self, text, option0, option1, option2):
         print("main_wdgt.py show_question() called with text " + text)
@@ -104,9 +92,6 @@ class MainWdgt(MainWidget, Gtk.Box):
 
     def handle_keyboard_interrupt(self, text):
         self._store_state()
-        '''
-        QtWidgets.QApplication.exit()
-        '''
 
     def get_filename_to_open(self, path, filter, caption=""):
         '''
@@ -202,9 +187,6 @@ class MainWdgt(MainWidget, Gtk.Box):
 
     def export_file(self):
         self.controller().show_export_file_dialog()
-
-    def import_file(self):
-        self.controller().show_import_file_dialog()
 
     def sync(self):
         self.controller().show_sync_dialog()
