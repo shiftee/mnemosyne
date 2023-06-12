@@ -35,7 +35,6 @@ class MainWdgt(MainWidget, Gtk.Box):
 
     def activate(self):
         MainWidget.activate(self)
-        state = self.config()["main_window_state"]
         # Dynamically fill study mode menu.
         study_modes = [x for x in self.component_manager.all("study_mode")]
         study_modes.sort(key=lambda x:x.menu_weight)
