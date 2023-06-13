@@ -20,11 +20,36 @@ class MainWdgt(MainWidget, Gtk.Box):
         self.progress_bar_update_interval = 1
         self.progress_bar_last_shown_value = 0
 
+        #make hamburger menu
+        import_selection = Gtk.ModelButton(action_name="import_file", label="Import")
+        about_selection  = Gtk.ModelButton(action_name="about_application", label="About")
+
+        vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, margin=10, spacing=10)
+        vbox.add(import_selection)
+        vbox.add(about_selection)
+        vbox.show_all()
+
+        self.popover = Gtk.Popover()
+        self.popover.add(vbox)
+        self.popover.set_position(Gtk.PositionType.BOTTOM)
+
+        self.menu_button = Gtk.MenuButton(popover=self.popover)
+        menu_icon = Gtk.Image.new_from_icon_name("open-menu-symbolic", Gtk.IconSize.MENU)
+        menu_icon.show()
+        self.menu_button.add(menu_icon)
+
+        #make header bar
         self.b1 = Gtk.Button(label="Main Widget")
+        self.header_box = Gtk.HBox(spacing=6)
+        self.header_box.pack_start(self.b1, True, True, 0)
+        self.header_box.pack_start(self.menu_button, False, False, 0)
+
+        #make central widget
         self.centralwidget = Gtk.VBox(spacing=6)
 
+        #add main components
         self.box = Gtk.VBox(spacing=6)
-        self.box.pack_start(self.b1, False, False, 0)
+        self.box.pack_start(self.header_box, False, False, 0)
         self.box.pack_start(self.centralwidget, True, True, 0)
         self.add(self.box)
 
@@ -64,35 +89,14 @@ class MainWdgt(MainWidget, Gtk.Box):
         self.controller().heartbeat()
         return True
 
-    def show_question(self, text, option0, option1, option2):
-        print("main_wdgt.py show_question() called with text " + text)
-        '''
-        dialog = QtWidgets.QMessageBox(self.top_window())
-        dialog.setIcon(QtWidgets.QMessageBox.Icon.Question)
-        dialog.setWindowTitle(_("Mnemosyne"))
-        dialog.setText(text)
-        button0 = dialog.addButton(option0, QtWidgets.QMessageBox.ButtonRole.ActionRole)
-        button1 = dialog.addButton(option1, QtWidgets.QMessageBox.ButtonRole.ActionRole)
-        if option2:
-            button2 = dialog.addButton(option2, QtWidgets.QMessageBox.ButtonRole.ActionRole)
-        dialog.exec()
-        if dialog.clickedButton() == button0:
-            result = 0
-        elif dialog.clickedButton() == button1:
-            result = 1
-        elif dialog.clickedButton() == button2:
-            result = 2
-        return result
-        '''
-
     def show_error(self, text):
         print("MainWdgt::show_error() called with text " + text)
-        #QtWidgets.QMessageBox.critical(self.top_window(), _("Mnemosyne"), text)
 
     def handle_keyboard_interrupt(self, text):
         self._store_state()
 
     def get_filename_to_open(self, path, filter, caption=""):
+        print("MainWdgt::get_filename_to_open() called with path " + path)
         '''
         filename, _ = QtWidgets.QFileDialog.\
             getOpenFileName(self, caption, path, filter)
@@ -100,6 +104,7 @@ class MainWdgt(MainWidget, Gtk.Box):
         '''
 
     def get_filename_to_save(self, path, filter, caption=""):
+        print("MainWdgt::get_filename_to_save() called with path " + path)
         '''
         filename, _ = QtWidgets.QFileDialog.\
             getSaveFileName(self, caption, path, filter)
@@ -107,9 +112,11 @@ class MainWdgt(MainWidget, Gtk.Box):
         '''
 
     def set_status_bar_message(self, text):
+        print("MainWdgt::set_status_bar_message() called with text " + text)
         self.status_bar.showMessage(text)
 
     def set_progress_text(self, text):
+        print("MainWdgt::set_progress_text() called with text " + text)
         if self.progress_bar:
             self.progress_bar.close()
             self.progress_bar = None
@@ -142,8 +149,6 @@ class MainWdgt(MainWidget, Gtk.Box):
                self.progress_bar_update_interval:
             self.progress_bar.setValue(value)
             self.progress_bar_last_shown_value = value
-            # This automatically processes events too. Calling processEvents
-            # explictly here might even cause some crashes.
 
     def close_progress(self):
         if self.progress_bar:
