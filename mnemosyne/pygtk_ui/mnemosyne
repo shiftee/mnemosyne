@@ -42,9 +42,11 @@ if options.version == True:
 data_dir = None
 if options.data_dir != None:
     data_dir = os.path.abspath(options.data_dir)
+    print("setting data_dir to " + data_dir)
 elif os.path.exists(os.path.join(os.getcwd(), "mnemosyne")) and \
     os.path.isdir(os.path.join(os.getcwd(), "mnemosyne")):
     data_dir = os.path.abspath(os.path.join(os.getcwd(), "mnemosyne"))
+    print("setting data_dir to " + data_dir)
 print("datadir is " +  data_dir)
 
 # Filename argument.
@@ -172,11 +174,9 @@ gi.require_version("Gtk", "3.0")
 from gi.repository import Gtk
 
 def on_activate(app):
-    win = Gtk.ApplicationWindow(application=app)
+    win = mnemosyne.main_widget()
+    win.set_application(app)
     win.set_default_size(450, 800)
-    win.box = Gtk.VBox(spacing=6)
-    win.box.pack_start(mnemosyne.main_widget(), True, True, 0)
-    win.add(win.box)
     win.show_all()
 
 a = Gtk.Application(application_id='org.gtk.Example')

@@ -11,7 +11,7 @@ from gi.repository import GLib
 from mnemosyne.libmnemosyne.gui_translator import _
 from mnemosyne.libmnemosyne.ui_components.main_widget import MainWidget
 
-class MainWdgt(MainWidget, Gtk.Box):
+class MainWdgt(MainWidget, Gtk.ApplicationWindow):
 
     def __init__(self, **kwds):
         super().__init__(**kwds)
