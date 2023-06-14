@@ -20,7 +20,22 @@ class MainWdgt(MainWidget, Gtk.ApplicationWindow):
         self.progress_bar_update_interval = 1
         self.progress_bar_last_shown_value = 0
 
-        #make hamburger menu
+        self.setup_header_bar()
+
+        self.b1 = Gtk.Button(label="Main Widget")
+        self.header_box = Gtk.HBox(spacing=6)
+        self.header_box.pack_start(self.b1, True, True, 0)
+
+        #make central widget
+        self.centralwidget = Gtk.VBox(spacing=6)
+
+        #add main components
+        self.box = Gtk.VBox(spacing=6)
+        self.box.pack_start(self.header_box, False, False, 0)
+        self.box.pack_start(self.centralwidget, True, True, 0)
+        self.add(self.box)
+
+    def setup_header_bar(self):
         import_selection = Gtk.ModelButton(label="Import")
         about_selection  = Gtk.ModelButton(label="About")
         import_selection.connect("clicked", self.import_file_action)
@@ -44,20 +59,6 @@ class MainWdgt(MainWidget, Gtk.ApplicationWindow):
         self.headerbar.props.title = "Mnemosyne"
         self.headerbar.pack_end(self.menu_button)
         self.set_titlebar(self.headerbar)
-
-        #make header bar
-        self.b1 = Gtk.Button(label="Main Widget")
-        self.header_box = Gtk.HBox(spacing=6)
-        self.header_box.pack_start(self.b1, True, True, 0)
-
-        #make central widget
-        self.centralwidget = Gtk.VBox(spacing=6)
-
-        #add main components
-        self.box = Gtk.VBox(spacing=6)
-        self.box.pack_start(self.header_box, False, False, 0)
-        self.box.pack_start(self.centralwidget, True, True, 0)
-        self.add(self.box)
 
     def setCentralWidget(self, widget):
         for old_widget in self.centralwidget.get_children():
