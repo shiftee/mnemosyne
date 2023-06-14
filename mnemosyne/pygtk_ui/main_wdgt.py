@@ -42,7 +42,7 @@ class MainWdgt(MainWidget, Gtk.ApplicationWindow):
         self.headerbar = Gtk.HeaderBar()
         self.headerbar.props.show_close_button = True
         self.headerbar.props.title = "Mnemosyne"
-        self.headerbar.add(self.menu_button)
+        self.headerbar.pack_end(self.menu_button)
         self.set_titlebar(self.headerbar)
 
         #make header bar
