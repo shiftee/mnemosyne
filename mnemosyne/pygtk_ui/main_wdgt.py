@@ -21,8 +21,10 @@ class MainWdgt(MainWidget, Gtk.ApplicationWindow):
         self.progress_bar_last_shown_value = 0
 
         #make hamburger menu
-        import_selection = Gtk.ModelButton(action_name="import_file", label="Import")
-        about_selection  = Gtk.ModelButton(action_name="about_application", label="About")
+        import_selection = Gtk.ModelButton(label="Import")
+        about_selection  = Gtk.ModelButton(label="About")
+        import_selection.connect("clicked", self.import_file_action)
+        import_selection.connect("clicked", self.import_file_action)
 
         vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, margin=10, spacing=10)
         vbox.add(import_selection)
@@ -35,14 +37,18 @@ class MainWdgt(MainWidget, Gtk.ApplicationWindow):
 
         self.menu_button = Gtk.MenuButton(popover=self.popover)
         menu_icon = Gtk.Image.new_from_icon_name("open-menu-symbolic", Gtk.IconSize.MENU)
-        menu_icon.show()
         self.menu_button.add(menu_icon)
+
+        self.headerbar = Gtk.HeaderBar()
+        self.headerbar.props.show_close_button = True
+        self.headerbar.props.title = "Mnemosyne"
+        self.headerbar.add(self.menu_button)
+        self.set_titlebar(self.headerbar)
 
         #make header bar
         self.b1 = Gtk.Button(label="Main Widget")
         self.header_box = Gtk.HBox(spacing=6)
         self.header_box.pack_start(self.b1, True, True, 0)
-        self.header_box.pack_start(self.menu_button, False, False, 0)
 
         #make central widget
         self.centralwidget = Gtk.VBox(spacing=6)
@@ -188,6 +194,9 @@ class MainWdgt(MainWidget, Gtk.ApplicationWindow):
 
     def import_file(self):
         self.controller().show_import_file_dialog()
+
+    def import_file_action(self, user_data):
+        self.import_file()
 
     def export_file(self):
         self.controller().show_export_file_dialog()
