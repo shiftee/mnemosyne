@@ -22,6 +22,7 @@ class MainWdgt(MainWidget, Gtk.ApplicationWindow):
 
         self.setup_header_bar()
 
+        #make header box
         self.b1 = Gtk.Button(label="Main Widget")
         self.header_box = Gtk.HBox(spacing=6)
         self.header_box.pack_start(self.b1, True, True, 0)
@@ -38,7 +39,6 @@ class MainWdgt(MainWidget, Gtk.ApplicationWindow):
     def setup_header_bar(self):
         import_selection = Gtk.ModelButton(label="Import")
         about_selection  = Gtk.ModelButton(label="About")
-        import_selection.connect("clicked", self.import_file_action)
         import_selection.connect("clicked", self.import_file_action)
 
         vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, margin=10, spacing=10)
