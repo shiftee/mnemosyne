@@ -130,12 +130,16 @@ mnemosyne.components.append(("mnemosyne.pyqt_ui.tip_dlg",
                              "TipDlg"))
 mnemosyne.components.append(("mnemosyne.pyqt_ui.about_dlg",
                              "AboutDlg"))
-mnemosyne.components.append(("mnemosyne.pyqt_ui.import_dlg",
+'''
+mnemosyne.components.append(("mnemosyne.pygtk_ui.import_dlg",
                              "ImportDlg"))
+'''
 mnemosyne.components.append(("mnemosyne.pyqt_ui.export_dlg",
                              "ExportDlg"))
-mnemosyne.components.append(("mnemosyne.pyqt_ui.export_metadata_dlg",
+'''
+mnemosyne.components.append(("mnemosyne.pygtk_ui.export_metadata_dlg",
                              "ExportMetadataDlg"))
+'''
 mnemosyne.components.append(("mnemosyne.pyqt_ui.prefill_tag_behaviour_plugin",
                              "PrefillTagBehaviourPlugin"))
 mnemosyne.components.append(("mnemosyne.pyqt_ui.pronouncer_dlg",
@@ -179,7 +183,7 @@ def on_activate(app):
     win.set_default_size(450, 800)
     win.show_all()
 
-a = Gtk.Application(application_id='org.gtk.Example')
+a = Gtk.Application()
 a.connect('activate', on_activate)
 
 a.run(None)

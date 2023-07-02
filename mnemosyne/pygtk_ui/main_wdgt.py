@@ -11,6 +11,8 @@ from gi.repository import GLib
 from mnemosyne.libmnemosyne.gui_translator import _
 from mnemosyne.libmnemosyne.ui_components.main_widget import MainWidget
 
+from mnemosyne.pygtk_ui.progress_dialog import ProgressDialog
+
 class MainWdgt(MainWidget, Gtk.ApplicationWindow):
 
     def __init__(self, **kwds):
@@ -62,7 +64,7 @@ class MainWdgt(MainWidget, Gtk.ApplicationWindow):
 
     def setCentralWidget(self, widget):
         for old_widget in self.centralwidget.get_children():
-            self.centralwidget.remove(self, old_widget)
+            self.centralwidget.remove(old_widget)
         self.centralwidget.pack_start(widget, True, True, 0)
 
     def activate(self):
@@ -97,7 +99,7 @@ class MainWdgt(MainWidget, Gtk.ApplicationWindow):
         return True
 
     def show_error(self, text):
-        print("MainWdgt::show_error() called with text " + text)
+        print("MainWdgt::show_error() called with text: " + text)
 
     def handle_keyboard_interrupt(self, text):
         self._store_state()
@@ -126,17 +128,17 @@ class MainWdgt(MainWidget, Gtk.ApplicationWindow):
         print("MainWdgt::set_progress_text() called with text " + text)
         if self.progress_bar:
             self.progress_bar.close()
-            self.progress_bar = None
-        self.progress_bar.setLabelText(text)
-        self.progress_bar.setRange(0, 0)
+        self.progress_bar = ProgressDialog()
+        self.progress_bar.set_title(_("Mnemosyne"))
+        self.progress_bar.set_label_text(text)
         self.progress_bar_update_interval = 1
         self.progress_bar_current_value = 0
         self.progress_bar_last_shown_value = 0
-        self.progress_bar.setValue(0)
+        self.progress_bar.set_value(0)
         self.progress_bar.show()
 
     def set_progress_range(self, maximum):
-        self.progress_bar.setRange(0, maximum)
+        self.progress_bar.set_range(maximum)
 
     def set_progress_update_interval(self, update_interval):
         update_interval = int(update_interval)
@@ -154,7 +156,7 @@ class MainWdgt(MainWidget, Gtk.ApplicationWindow):
         self.progress_bar_current_value = value
         if value - self.progress_bar_last_shown_value >= \
                self.progress_bar_update_interval:
-            self.progress_bar.setValue(value)
+            self.progress_bar.set_value(value)
             self.progress_bar_last_shown_value = value
 
     def close_progress(self):
