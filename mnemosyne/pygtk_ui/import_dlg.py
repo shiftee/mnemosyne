@@ -1,5 +1,5 @@
 #
-# import_wdgt.py <shiftee@posteo.net>
+# import_dlg.py <shiftee@posteo.net>
 # Based on a file with the same name in the pyqt_ui directory
 #
 
@@ -22,15 +22,13 @@ answer = None
 
 
 class ImportThread(GObject.GObject):
-    '''
-    #show_export_metadata_signal = QtCore.pyqtSignal(dict, bool)
     __gsignals__ = {
-        'show_export_metadata': (GObject.SIGNAL_RUN_FIRST, None,
-                      (int,))
+        'show_export_metadata': (GObject.SIGNAL_RUN_FIRST, None, ())
     }
 
     def show_export_metadata_dialog(self, metadata, read_only=True):
         print("ImportThread::show_export_metadata_dialog() called")
+    '''
         global answer
         mutex.lock()
         answer = None
@@ -42,6 +40,7 @@ class ImportThread(GObject.GObject):
     '''
 
     def __init__(self, filename, format, extra_tag_names, **kwds):
+        GObject.GObject.__init__(self)
         self.filename = filename
         self.format = format
         self.extra_tag_names = extra_tag_names
@@ -116,7 +115,6 @@ class ImportDlg(ImportDialog, Gtk.Dialog):
         )
 
         self.set_default_size(450, 800)
-        print("ImportDlg contructor done")
 
     def file_format_changed(self, widget):
         self.filename_box.set_text("")
@@ -134,7 +132,6 @@ class ImportDlg(ImportDialog, Gtk.Dialog):
                 return _format
 
     def browse(self):
-        print("called browse()")
         import_dir = self.config()["import_dir"]
         filename = self.main_widget().get_filename_to_open(import_dir,
             _(self.format().filename_filter))
@@ -151,24 +148,22 @@ class ImportDlg(ImportDialog, Gtk.Dialog):
                 extra_tag_names = ""
             self.worker_thread = ImportThread(filename,
                 self.format(), extra_tag_names, mnemosyne=self)
-            '''
             self.worker_thread.connect("show_export_metadata",\
                 self.threaded_show_export_metadata)
-            '''
             self.run_worker_thread()
         else:
             self.main_widget().show_error(_("File does not exist."))
 
-    '''
     def threaded_show_export_metadata(self, metadata, read_only):
         print("called threaded_show_export_metadata()")
+        '''
         global answer
         mutex.lock()
         self.true_main_widget.show_export_metadata_dialog(metadata, read_only)
         answer = True
         dialog_closed.wakeAll()
         mutex.unlock()
-    '''
+        '''
 
     def work_ended(self):
         self.main_widget().close_progress()

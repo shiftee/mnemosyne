@@ -125,7 +125,6 @@ class MainWdgt(MainWidget, Gtk.ApplicationWindow):
         self.status_bar.showMessage(text)
 
     def set_progress_text(self, text):
-        print("MainWdgt::set_progress_text() called with text " + text)
         if self.progress_bar:
             self.progress_bar.close()
         self.progress_bar = ProgressDialog()
