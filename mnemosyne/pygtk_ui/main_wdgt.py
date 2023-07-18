@@ -39,12 +39,15 @@ class MainWdgt(MainWidget, Gtk.ApplicationWindow):
         self.add(self.box)
 
     def setup_header_bar(self):
-        import_selection = Gtk.ModelButton(label="Import")
-        about_selection  = Gtk.ModelButton(label="About")
+        import_selection    = Gtk.ModelButton(label="Import")
+        add_cards_selection = Gtk.ModelButton(label="Add cards")
+        about_selection     = Gtk.ModelButton(label="About")
         import_selection.connect("clicked", self.import_file_action)
+        add_cards_selection.connect("clicked", self.add_cards_action)
 
         vbox = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, margin=10, spacing=10)
         vbox.add(import_selection)
+        vbox.add(add_cards_selection)
         vbox.add(about_selection)
         vbox.show_all()
 
@@ -208,6 +211,9 @@ class MainWdgt(MainWidget, Gtk.ApplicationWindow):
 
     def add_cards(self):
         self.controller().show_add_cards_dialog()
+
+    def add_cards_action(self, user_data):
+        self.add_cards()
 
     def edit_current_card(self):
         self.controller().show_edit_card_dialog()

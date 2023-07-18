@@ -67,17 +67,19 @@ mnemosyne.components.insert(0,
                              "GtkGuiTranslator"))
 mnemosyne.components.append(("mnemosyne.pygtk_ui.main_wdgt",
                              "MainWdgt"))
+mnemosyne.components.append(("mnemosyne.pygtk_ui.configuration",
+                             "PyGtkConfiguration"))
 '''
-mnemosyne.components.append(("mnemosyne.pyqt_ui.configuration",
-                             "PyQtConfiguration"))
 mnemosyne.components.append(("mnemosyne.pyqt_ui.pyqt_render_chain",
                              "PyQtRenderChain"))
 mnemosyne.components.append(("mnemosyne.pyqt_ui.compact_database_dlg",
                              "CompactDatabaseDlg"))
 mnemosyne.components.append(("mnemosyne.pyqt_ui.compact_database_dlg",
                              "PyQtDatabaseMaintenance"))
-mnemosyne.components.append(("mnemosyne.pyqt_ui.add_cards_dlg",
+'''
+mnemosyne.components.append(("mnemosyne.pygtk_ui.add_cards_dlg",
                              "AddCardsDlg"))
+'''
 mnemosyne.components.append(("mnemosyne.pyqt_ui.edit_card_dlg",
                              "EditCardDlg"))
 mnemosyne.components.append(("mnemosyne.pyqt_ui.browse_cards_dlg",
@@ -90,8 +92,10 @@ mnemosyne.components.append(("mnemosyne.pyqt_ui.manage_plugins_dlg",
                              "ManagePluginsDlg"))
 mnemosyne.components.append(("mnemosyne.pyqt_ui.statistics_dlg",
                              "StatisticsDlg"))
-mnemosyne.components.append(("mnemosyne.pyqt_ui.card_type_wdgt_generic",
+'''
+mnemosyne.components.append(("mnemosyne.pygtk_ui.card_type_wdgt_generic",
                              "GenericCardTypeWdgt"))
+'''
 mnemosyne.components.append(("mnemosyne.pyqt_ui.statistics_wdgts_plotting",
                              "ScheduleWdgt"))
 mnemosyne.components.append(("mnemosyne.pyqt_ui.statistics_wdgts_plotting",
