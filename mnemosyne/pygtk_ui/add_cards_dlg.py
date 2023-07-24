@@ -272,7 +272,7 @@ class AddCardsDlg(AddEditCards, AddCardsDialog, Gtk.Dialog):
         self.grade_buttons.set_sensitive(valid)
         self.preview_button.set_sensitive(valid)
 
-    def create_new_cards(self, grade):
+    def create_new_cards(self, button, grade):
         if grade == 0:
             grade = -1
         fact_data = self.card_type_widget.fact_data()

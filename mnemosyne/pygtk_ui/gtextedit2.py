@@ -122,7 +122,7 @@ class GTextEdit2(Gtk.TextView):
         start = self.get_buffer().get_start_iter()
         end   = self.get_buffer().get_end_iter()
         include_hidden = False
-        self.get_buffer().get_text(start, end, include_hidden)
+        return self.get_buffer().get_text(start, end, include_hidden)
 
     def set_text(self, text):
         self.get_buffer().set_text(text, len(text))

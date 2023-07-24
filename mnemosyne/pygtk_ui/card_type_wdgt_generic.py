@@ -36,7 +36,7 @@ class GenericCardTypeWdgt(GenericCardTypeWidget, Gtk.Box):
         for fact_key, fact_key_name in self.card_type.fact_keys_and_names:
             l = Gtk.Label()
             l.set_text(_(fact_key_name) + ":")
-            self.vboxlayout.pack_start(l, True, True, 0)
+            self.vboxlayout.pack_start(l, False, False, 0)
             if fact_key == "p_1":
                 self.pronunciation_label = l
                 self.pronunciation_label.setVisible(not pronunciation_hiding)
@@ -140,9 +140,8 @@ class GenericCardTypeWdgt(GenericCardTypeWidget, Gtk.Box):
     def clear(self):
         self.fact_data_before_edit = {}
         for edit_box in self.fact_key_for_edit_box:
-            edit_box.setText("")
-        self.top_edit_box.setFocus()
+            edit_box.set_text("")
 
-    def text_changed(self):
-        self.parent().set_valid(\
+    def text_changed(self, buffer):
+        self.get_toplevel().set_valid(\
             self.card_type.is_fact_data_valid(self.fact_data()))
